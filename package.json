@@ -1,0 +1,29 @@
+{
+  "name": "usan-stock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "stock": "bin/stock"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/u-san/usan-stock.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/u-san/usan-stock/issues"
+  },
+  "homepage": "https://github.com/u-san/usan-stock#readme",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "inquirer": "^2.0.0"
+  }
+}

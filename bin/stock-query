@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+
+const spawn    = require('child_process').spawn;
+const inquirer = require('inquirer');
+
+const MENU = [
+	{name:'查询', fun: () => {console.log('query')}},
+]
+
+inquirer.prompt([
+	type: 'checkbox',
+	name: 'select',
+	message: 'u-san stock cli',
+	choices: MENU
+])
+
+// var questions = [
+//   {
+//     type: 'checkbox',
+//     name: 'selection',
+//     message: 'select fruits',
+//     choices: [
+//       {
+//         name: 'apple'
+//       },
+//       {
+//         name: 'banana'
+//       },
+//       {
+//         name: 'melon'
+//       }
+//     ]
+//   }
+// ];
+
+// inquirer.prompt(questions, function(answers) {
+//     console.log(answers.selection);
+// })
+
+
+
+
+// function initAsk(menus){
+// 	menus = menus || MENU.slice(0)
+
+// 	inquirer.prompt([{
+// 		type: 'list',
+// 		name: 'menu',
+// 		message: 'QBS 命令行工具。',
+// 		choices: menus.map(i=>i.text)
+// 	}]).then(function(answers) {
+// 		var fun = menus.find(i=>i.text==answers.menu).fun
+// 		if(fun){
+// 			fun()
+// 		}else{
+// 			logger.log('功能还未实现，请联系前端工程师@张彪')
+// 		}
+// 	})
+// }
+
+// initAsk()
+
