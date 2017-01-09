@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+const spawn    = require('child_process').spawn;
+const inquirer = require('inquirer');
+
+const MENU = [
+	{name:'查询', func: () => {console.log('query')}},
+	{name:'查询2', func: () => {console.log('query2')}},
+]
+
+inquirer.prompt({
+	type: 'list',
+	name: 'name',
+	message: 'usan stock cli',
+	choices: MENU
+})
+.then(ret => {
+	MENU.find(item => item.name === ret.name).func();
+})

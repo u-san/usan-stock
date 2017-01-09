@@ -24,6 +24,8 @@
   "homepage": "https://github.com/u-san/usan-stock#readme",
   "dependencies": {
     "commander": "^2.9.0",
-    "inquirer": "^2.0.0"
+    "iconv-lite": "^0.4.15",
+    "inquirer": "^2.0.0",
+    "request": "^2.79.0"
   }
 }

@@ -1,43 +1,16 @@
 #!/usr/bin/env node
 
-const spawn    = require('child_process').spawn;
-const inquirer = require('inquirer');
+const utils = require('../utils');
+const controller = require('../controller');
 
-const MENU = [
-	{name:'查询', func: () => {console.log('query')}},
-	{name:'查询2', func: () => {console.log('query2')}},
-]
+ console.log(process.argv)
+ let code = process.argv.slice(2)[0]
 
-inquirer.prompt({
-	type: 'list',
-	name: 'name',
-	message: 'usan stock cli',
-	choices: MENU
-})
-.then(ret => {
-	MENU.find(item => item.name === ret.name).func();
-})
 
-// var questions = [
-//   {
-//     type: 'checkbox',
-//     name: 'selection',
-//     message: 'select fruits',
-//     choices: [
-//       {
-//         name: 'apple'
-//       },
-//       {
-//         name: 'banana'
-//       },
-//       {
-//         name: 'melon'
-//       }
-//     ]
-//   }
-// ];
-
-// inquirer.prompt(questions, function(answers) {
-//     console.log(answers.selection);
-// })
+ let a = utils.affiliationPad(code)
+ console.log(a)
+controller.queryStock(a)
+          .then(ret => {
+          	console.log(ret)
+          })
 
