@@ -3,14 +3,14 @@
 const utils = require('../utils');
 const controller = require('../controller');
 
- console.log(process.argv)
- let code = process.argv.slice(2)[0]
+let code = process.argv.slice(2)[0]
 
+code = utils.affiliationPad(code)
 
- let a = utils.affiliationPad(code)
- console.log(a)
-controller.queryStock(a)
-          .then(ret => {
-          	console.log(ret)
-          })
+controller
+	.queryStock(`s_${code}`)
+    .then(ret => {
+    	let str = ret.match(/\"(.*)\"/ig)[0];
+	  	console.log(str)
+	})
 
