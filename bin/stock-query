@@ -3,14 +3,18 @@
 const utils = require('../utils');
 const controller = require('../controller');
 
-let code = process.argv.slice(2)[0]
+let codes = process.argv.slice(2)
+let codeArr = []
 
-code = utils.affiliationPad(code)
-
+codes.forEach(code => {
+	let str = utils.affiliationPad(code)
+	codeArr.push(`s_${str}`)
+})
+	
 controller
-	.queryStock(`s_${code}`)
+	.queryStock(codeArr.join(','))
     .then(ret => {
-    	let str = ret.match(/\"(.*)\"/ig)[0];
-	  	console.log(str)
+    	let arr = ret.match(/\"(.*)\"/ig);
+	  	console.log(arr.join('\n'))
 	})
 

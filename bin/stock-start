@@ -1,19 +1,84 @@
 #!/usr/bin/env node
 
-const spawn    = require('child_process').spawn;
-const inquirer = require('inquirer');
+const spawn      = require('child_process').spawn
+const inquirer   = require('inquirer')
+const utils      = require('../utils')
+const controller = require('../controller')
+
+
+const add = () => {
+	let qa = {
+		type: 'input',
+		name: 'code',
+		message: 'pls input code',
+		validate: val => {
+			if (!/^(\d{6},*)+$/.test(val)) {
+				return '请输入6位数字,输入多个请以半角","分隔'
+			}
+
+			return true
+		}
+	}
+
+	inquirer
+		.prompt(qa)
+		.then(data => {
+			return controller.addStock(data.code)
+		})
+		.then(() => {
+			console.log(`添加成功`)
+			init()
+		})
+}
+
+
+// let questions = [{
+//     type: 'input',
+//     name: 'path',
+//     message: '请输路由路径，如：/user/add  (无需 .html 结尾)\n',
+//     validate: function (value) {
+//     	if(!/^\//gi.test(value)){
+// 			return '请以 / 开头'
+//     	}
+//     	if(/\/$/gi.test(value)){
+// 			return '不能以 / 结尾'
+//     	}
+//     	if(/\.html$/gi.test(value)){
+// 			return '不能以 .html 结尾'
+//     	}
+//       	return true
+//     }
+//   }
+// ]
+// inquirer.prompt(questions).then(function (answers) {
+// 	if(!isExist(answers.path)){
+// 		resolve()
+// 	}else{
+// 		funs.createRouter()
+// 	}
+// })
+
+
+const init = () => {
+	let opt = {
+		type: 'list',
+		name: 'name',
+		message: 'pls select',
+		choices: MENU
+	}
+
+	inquirer
+		.prompt(opt)
+		.then(ret => {
+			MENU.find(item => item.name === ret.name).func();
+		})
+}
 
 const MENU = [
 	{name:'查询', func: () => {console.log('query')}},
-	{name:'查询2', func: () => {console.log('query2')}},
+	{name:'添加', func: add},
 ]
 
-inquirer.prompt({
-	type: 'list',
-	name: 'name',
-	message: 'usan stock cli',
-	choices: MENU
-})
-.then(ret => {
-	MENU.find(item => item.name === ret.name).func();
-})
+init()
+
+
