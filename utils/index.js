@@ -1,15 +1,7 @@
 const controller = require('../controller')
 
-exports.isExist = code => {
-	return new Promise((resolve, reject) => {
-		controller
-			.readStockJson()
-			.then(ret => {
-				let flag = ret.data.some(val => val === code)
-				flag ? reject(code) : resolve(code)
-			})
-	})
-	
+exports.isExist = (data, code) => {
+	return data.some(item => item.code === code)
 }
 
 exports.affiliationPad = code => {
@@ -32,5 +24,5 @@ exports.affiliationPad = code => {
 			break
 	}
 
- 	return `${str+code}`
+ 	return str
 }

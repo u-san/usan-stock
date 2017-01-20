@@ -8,7 +8,7 @@ let codeArr = []
 
 codes.forEach(code => {
 	let str = utils.affiliationPad(code)
-	codeArr.push(`s_${str}`)
+	codeArr.push(`s_${str + code}`)
 })
 	
 controller

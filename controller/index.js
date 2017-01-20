@@ -20,28 +20,44 @@ exports.queryStock = code => {
 
 exports.addStock = codes => {
 	return new Promise((resolve, reject) => {
-		let rights = wrongs = exists = []
-		let a
-		codes.split(',').forEach(code => {
+		let rights = [],
+			wrongs = [],
+			exists = [];
 
-			   a = utils.isExist(code)  // 重复readfile 优化
-				 .then(() => {
-				 	let ret = utils.affiliationPad(code)
-					let arr = ret ? rights : wrongs
-					arr.push(code)
-				 })
-				 .catch(() => {
-				 	exists.push(code)
-				 })
-		})
+		this.readStockJson()
+			.then(ret => {
+				let stocks = ret.data
 
-		a.then(() => {
-			console.log(rights)
-			console.log(wrongs)
-			console.log(exists)
-		})
+				codes.split(',').forEach(code => {
+					let isExist = utils.isExist(stocks, code)
 
+					if (isExist) {
+						exists.push(code)
+						return true
+					}
 
+					let prefix = utils.affiliationPad(code)
+
+					if (!prefix) {
+						wrongs.push(code)
+						return true
+					}
+
+					rights.push(code)
+
+					stocks.push({
+						code  : code,
+						prefix: prefix
+					})
+				})
+
+				return this.wirteStockJson(JSON.stringify(stocks))
+			})
+			.then(() => {
+				rights && rights.length && console.log(`成功添加${rights.join(',')}`)
+				exists && exists.length && console.log(`已有代码${exists.join(',')}`)
+				wrongs && wrongs.length && console.log(`错误代码${wrongs.join(',')}`)
+			})
 	})
 }
 
@@ -54,23 +70,9 @@ exports.readStockJson = () => {
 }
 
 exports.wirteStockJson = str => {
-	return Promise((resolve, reject) => {
+	return new Promise((resolve, reject) => {
 		fs.writeFile(config.stockJsonPath, str, (err) => {
 			err ? reject(err) : resolve()
 		})
 	})
 }
-
-
-
-// function writeStockCodeFile (data) {
-// 	return new Promise((resolve,reject) => {
-// 		fs.writeFile(config.stockDataFile, data, (err) => {
-// 			if (err) {
-// 				reject(err);
-// 			} else {
-// 				resolve();
-// 			}
-// 		})
-// 	})
-// }
