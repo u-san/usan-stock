@@ -1,5 +1,9 @@
 const controller = require('../controller')
 
+exports.isArray = data => {
+	return Object.prototype.toString.call(data) === 'object Array'
+}
+
 exports.isExist = (data, code) => {
 	return data.some(item => item.code === code)
 }

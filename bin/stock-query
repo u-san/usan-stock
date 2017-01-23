@@ -3,18 +3,37 @@
 const utils = require('../utils');
 const controller = require('../controller');
 
-let codes = process.argv.slice(2)
-let codeArr = []
+const showStock = data => {
+	controller
+		.queryStock(data.join(','))
+	    .then(ret => {
+	    	let arr = ret.match(/\"(.*)\"/ig);
+		  	console.log(arr.join('\n'))
+		})
+}
 
-codes.forEach(code => {
-	let str = utils.affiliationPad(code)
-	codeArr.push(`s_${str + code}`)
-})
-	
-controller
-	.queryStock(codeArr.join(','))
-    .then(ret => {
-    	let arr = ret.match(/\"(.*)\"/ig);
-	  	console.log(arr.join('\n'))
+let codes = process.argv.slice(2)
+
+if (!codes || !codes.length) {
+	controller
+		.readStockJson()
+		.then(ret => {
+			codes = ret.map(item => `s_${item.prefix + item.code}`)
+			showStock(codes)
+		})
+}
+else {
+	let codeArr = []
+
+	codes.forEach(code => {
+		let str = utils.affiliationPad(code)
+		codeArr.push(`s_${str + code}`)
 	})
+
+	showStock(codeArr)
+}
+
+
+
+
 

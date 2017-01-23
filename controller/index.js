@@ -25,15 +25,17 @@ exports.addStock = codes => {
 			exists = [];
 
 		this.readStockJson()
-			.then(ret => {
-				let stocks = ret.data
+			.then(stocks => {
+				codes = codes.indexOf(',') === -1 ? [codes] : codes.split(',')
 
-				codes.split(',').forEach(code => {
-					let isExist = utils.isExist(stocks, code)
+				codes.forEach(code => {
+					if (stocks) {
+						let isExist = utils.isExist(stocks, code)
 
-					if (isExist) {
-						exists.push(code)
-						return true
+						if (isExist) {
+							exists.push(code)
+							return true
+						}
 					}
 
 					let prefix = utils.affiliationPad(code)

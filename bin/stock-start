@@ -31,32 +31,12 @@ const add = () => {
 		})
 }
 
-
-// let questions = [{
-//     type: 'input',
-//     name: 'path',
-//     message: '请输路由路径，如：/user/add  (无需 .html 结尾)\n',
-//     validate: function (value) {
-//     	if(!/^\//gi.test(value)){
-// 			return '请以 / 开头'
-//     	}
-//     	if(/\/$/gi.test(value)){
-// 			return '不能以 / 结尾'
-//     	}
-//     	if(/\.html$/gi.test(value)){
-// 			return '不能以 .html 结尾'
-//     	}
-//       	return true
-//     }
-//   }
-// ]
-// inquirer.prompt(questions).then(function (answers) {
-// 	if(!isExist(answers.path)){
-// 		resolve()
-// 	}else{
-// 		funs.createRouter()
-// 	}
-// })
+const query = () => {
+	let child = spawn('stock', ['query'])
+	child.stdout.on('data',(data)=>{
+		console.log(data.toString())
+	})
+}
 
 
 const init = () => {
@@ -75,7 +55,7 @@ const init = () => {
 }
 
 const MENU = [
-	{name:'查询', func: () => {console.log('query')}},
+	{name:'查询', func: query},
 	{name:'添加', func: add},
 ]
 
